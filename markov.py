@@ -21,48 +21,74 @@ stopword = "\n" # Since we split on whitespace, this can never be a word
 stopsentence = (".", "!", "?",) # Cause a "new sentence" if found at the end of a word
 sentencesep  = "\n" #String used to separate sentences
 
-
 # GENERATE TABLE
 w1 = stopword
 w2 = stopword
-table = {}
+table_a = {}
+table_b = {}
+counter = 0
+sourcecounter = 0
 
 twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
 
-with open("source.txt") as f:
-    for line in f:
-        for word in line.split():
-            if word[-1] in stopsentence:
-                table.setdefault( (w1, w2), [] ).append(word[0:-1])
-                w1, w2 = w2, word[0:-1]
-                word = word[-1]
-            table.setdefault( (w1, w2), [] ).append(word)
-            w1, w2 = w2, word
-table.setdefault( (w1, w2), [] ).append(stopword)
+def load_table(filename, tablename): 
+    global w1, w2
+    with open(filename) as f:
+        for line in f:
+            for word in line.split():
+                if word[-1] in stopsentence:
+                    tablename.setdefault( (w1, w2), [] ).append(word[0:-1])
+                    w1, w2 = w2, word[0:-1]
+                    word = word[-1]
+                tablename.setdefault( (w1, w2), [] ).append(word)
+                w1, w2 = w2, word
+        tablename.setdefault( (w1, w2), [] ).append(stopword)
 
 MAXSENTENCES = 5
 
-w1 = stopword
-w2 = stopword
-
 def generate_sentences():
-    global w1, w2
+    global w1, w2, sourcecounter, table_a, table_b, stopword
     margin = offset = 10
     font = ImageFont.truetype("Lora-Regular.ttf", 16)
     sentence = []
     sentences = []
+    tables = [table_a, table_b]
+    current_table = random.randint(0, 1)
 
     while len(sentences) < MAXSENTENCES:
-        newword = random.choice(table[(w1, w2)])
+        current_table_a = random.choice([True, False])
+
+        if current_table_a: 
+            current_table = 0
+            other_table = 1
+        else: 
+            current_table = 0
+            other_table = 1
+
+        if (w1, w2) in tables[other_table].keys():
+            print "switching sources"
+            current_table_a = not current_table_a
+
+        if current_table_a: 
+            current_table = 0
+            other_table = 1
+        else: 
+            current_table = 0
+            other_table = 1   
+
+        newword = random.choice(tables[current_table][(w1, w2)])
         if newword == stopword: sys.exit()
         if newword in stopsentence:
             sentences.append(" ".join(sentence) + newword)
             sentence = []
         else:
             sentence.append(newword)
-        w1, w2 = w2, newword
+            print "appending:"
+            print newword
+            print current_table
+            w1, w2 = w2, newword   
 
-    print "tweeting..."
+    # print "tweeting..."
     status = max(sentences, key=len)
     try:
         if len(status) > 100:
@@ -77,13 +103,21 @@ def generate_sentences():
             media = open('temp.png', 'rb')
 
             status = (status[:100] + '...')
-            twitter.update_status_with_media(media=media, status=status)
+            # twitter.update_status_with_media(media=media, status=status)
+            print sentences
+            # print status
         else:
-            twitter.update_status(status=status)
+            # twitter.update_status(status=status)
+            print status
     except Exception as e:
         print "some sort of error... don't really care...", str(e)
 
-while True:
+load_table("dragons.txt", table_a)
+load_table("pride.txt", table_b)
+
+while counter < 5:
+    time.sleep(0)
     generate_sentences()
-    print "sleeping..."
-    time.sleep(3600)
+    counter = counter + 1
+    print counter 
+    print "..."
