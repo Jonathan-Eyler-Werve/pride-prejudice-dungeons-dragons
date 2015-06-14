@@ -1,4 +1,6 @@
-That goes double for mind flayers, which absolutely, utterly, and completely do not exist, nor do they
+
+
+It was not. That goes double for mind flayers, which absolutely, utterly, and completely do not exist, nor do they
 secretly run the D<ZD team. Do we really need a disclaimer to tell you that? You shouldn't use your brain to consider
 such irrational thoughts. They only make the mind cluttered, confused, and unpleasantly chewy. A good brain is nice,
 tender, and barely used. Go ahead, put down this book and watch some reality TV or Internet cat videos. They're really
@@ -8,6 +10,8 @@ the Coast product names, and their respective logos are trademarks of Wizards of
 of Wizards of the Coast. This material is protected under the copyright laws of the United States of America. Any reproduction or unauthorized use of the material or artwork contained
 herein is prohibited without the express written permission of Wizards of the Coast.
 Introduction
+
+
 this bestiary is for storytellers and world-builders. If you have ever thought about
 running a Dungeons & Dragons game
 I for your friends, either a single night's
@@ -60,6 +64,8 @@ contains wandering monster tables and other goodies
 to help you use the monsters in this book in interesting
 ways, as well as advice for modifying monsters and
 creating your own.
+
+
 If you've never run a D&D adventure before, we
 recommend that you pick up the Dungeons & Dragons
 Starter Set, which demonstrates how to take a bunch of
@@ -101,6 +107,8 @@ overrun with demons and demon-worshiping cultists
 The icy tomb of a frost giant king
 A filthy, labyrinthine sewer system controlled by a
 gang of wererats
+
+
 The Underdark
 There is no greater dungeon than the Underdark, the
 underworld beneath the surface world. It is a vast
@@ -237,11 +245,15 @@ but also other creatures of the dragon type, such as
 dragon turtles and wyverns.
 The game includes the following monster types, which
 have no rules of their own.
+
+
 Aberrations are utterly alien beings. Many of them
 have innate magical abilities drawn from the creature's
 alien mind rather than the mystical forces of the world.
 The quintessential aberrations are aboleths, beholders,
 mind flayers, and slaadi.
+
+
 Beasts are nonhumanoid creatures that are a natural
 part of the fantasy ecology. Some of them have magical
 powers, but most are unintelligent and lack any society
@@ -702,6 +714,8 @@ Recharge after a Short or Long Rest. This notation
 means that a monster can use a special ability once and
 then must finish a short or long rest to use it again'
 Equipment
+
+
 A stat block rarely refers to equipment, othepthan
 armor or weapons used by a monster. A creature that
 customarily wears clothes, such as a humanoid
@@ -1077,6 +1091,8 @@ that it lacks.
 At will: detect evil and good
 1/day each: commune, raise dead
 Planetar
+
+
 Planetars act as the weapons of the gods they serve,
 presenting a tangible representation of their deities'
 might. A planetar can call down rain to relieve a

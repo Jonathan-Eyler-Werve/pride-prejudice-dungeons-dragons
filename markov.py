@@ -31,8 +31,10 @@ sourcecounter = 0
 
 twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
 
-def load_table(filename, tablename): 
+def load_table(filename, tablename):
     global w1, w2
+    w1 = stopword
+    w2 = stopword    
     with open(filename) as f:
         for line in f:
             for word in line.split():
@@ -44,18 +46,22 @@ def load_table(filename, tablename):
                 w1, w2 = w2, word
         tablename.setdefault( (w1, w2), [] ).append(stopword)
 
+ 
+
 MAXSENTENCES = 5
 
 def generate_sentences():
-    global w1, w2, sourcecounter, table_a, table_b, stopword
+    global w1, w2, table_a, table_b, stopword, sourcecounter
     margin = offset = 10
     font = ImageFont.truetype("Lora-Regular.ttf", 16)
     sentence = []
     sentences = []
     tables = [table_a, table_b]
     current_table = random.randint(0, 1)
+    source_preference = " "
 
     while len(sentences) < MAXSENTENCES:
+
         current_table_a = random.choice([True, False])
 
         if current_table_a: 
@@ -65,28 +71,37 @@ def generate_sentences():
             current_table = 0
             other_table = 1
 
-        if (w1, w2) in tables[other_table].keys():
-            print "switching sources"
-            current_table_a = not current_table_a
+        if (w1, w2) in tables[other_table].keys(): # can we switch to other source? 
+            if sourcecounter <= -2: 
+                source_preference = "B"
+                # print "prefer source B"
+            if sourcecounter >= 2: 
+                source_preference = "A"
+                # print "prefer source A"
 
-        if current_table_a: 
+        if source_preference == "A" and (w1, w2) in tables[0].keys(): current_table_a = True
+        if source_preference == "B" and (w1, w2) in tables[1].keys(): current_table_a = False
+
+        if current_table_a: #obvious DRY refactor here
             current_table = 0
             other_table = 1
+            sourcecounter -= 1
         else: 
-            current_table = 0
-            other_table = 1   
+            current_table = 1
+            other_table = 0 
+            sourcecounter += 1  
 
-        newword = random.choice(tables[current_table][(w1, w2)])
-        if newword == stopword: sys.exit()
-        if newword in stopsentence:
-            sentences.append(" ".join(sentence) + newword)
-            sentence = []
-        else:
-            sentence.append(newword)
-            print "appending:"
-            print newword
-            print current_table
-            w1, w2 = w2, newword   
+        if (w1, w2) in tables[current_table].keys():
+            newword = random.choice(tables[current_table][(w1, w2)])
+
+            if newword == stopword: sys.exit()
+            if newword in stopsentence:
+                sentences.append(" ".join(sentence) + newword)
+                sentence = []
+            else:
+                sentence.append(newword)
+                w1, w2 = w2, newword   
+        else: current_table_a = not current_table_a        
 
     # print "tweeting..."
     status = max(sentences, key=len)
@@ -104,20 +119,25 @@ def generate_sentences():
 
             status = (status[:100] + '...')
             # twitter.update_status_with_media(media=media, status=status)
+            # if (" ").join(sentences).find("Darcy") != -1 or status.find("Elizabeth") != -1: print sentences
             print sentences
-            # print status
         else:
             # twitter.update_status(status=status)
             print status
+
     except Exception as e:
         print "some sort of error... don't really care...", str(e)
 
 load_table("dragons.txt", table_a)
+w1 = stopword
+w2 = stopword
 load_table("pride.txt", table_b)
 
-while counter < 5:
-    time.sleep(0)
+while counter < 50:
+    # time.sleep(0)
+    w1 = stopword
+    w2 = stopword
     generate_sentences()
+    sourcecounter = 0
     counter = counter + 1
-    print counter 
     print "..."

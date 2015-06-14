@@ -1,14 +1,4 @@
 
-
-PRIDE AND PREJUDICE
-
-By Jane Austen
-
-
-
-Chapter 1
-
-
 It is a truth universally acknowledged, that a single man in possession
 of a good fortune, must be in want of a wife.
 
@@ -13000,6 +12990,7 @@ thought it advisable to retain the right of visiting at Pemberley, she
 dropt all her resentment; was fonder than ever of Georgiana, almost as
 attentive to Darcy as heretofore, and paid off every arrear of civility
 to Elizabeth.
+
 
 Pemberley was now Georgiana's home; and the attachment of the sisters
 was exactly what Darcy had hoped to see. They were able to love each
