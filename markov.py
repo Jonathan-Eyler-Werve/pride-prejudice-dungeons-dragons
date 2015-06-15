@@ -68,8 +68,8 @@ def generate_sentences():
             current_table = 0
             other_table = 1
         else: 
-            current_table = 0
-            other_table = 1
+            current_table = 1
+            other_table = 0
 
         if (w1, w2) in tables[other_table].keys(): # can we switch to other source? 
             if sourcecounter <= -2: 
