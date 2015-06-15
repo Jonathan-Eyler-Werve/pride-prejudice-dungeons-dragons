@@ -5,8 +5,8 @@ PRIDE = "pride.txt"
 
 def build_lookup(words)
   lookup = {}
-  word_1 = "/n"
-  word_2 = "/n"
+  word_1 = "\n"
+  word_2 = "\n"
   words.each do |nextword| 
     nextword.delete!("\"")
     nextword.delete!("\'")
@@ -82,8 +82,8 @@ p mostly_letters?(["foo","bar","baz9"]) == false
 p mostly_letters?(["foo","bar","---"]) == false
 p mostly_letters?(["foo","bar","___"]) == false
 
-p build_lookup(["foo"]) == {"/n, /n"=>["foo"]}
-p build_lookup(["foo", "foo9"]) == {"/n, /n"=>["foo"]} # excludes numbers
-p build_lookup(["foo","bar","baz", "bar", "foo", "bar", "bip"]) == {"/n, /n"=>["foo"], "/n, foo"=>["bar"], "foo, bar"=>["baz", "bip"], "bar, baz"=>["bar"], "baz, bar"=>["foo"], "bar, foo"=>["bar"]}
+p build_lookup(["foo"]) == {"\n, \n"=>["foo"]}
+p build_lookup(["foo", "foo9"]) == {"\n, \n"=>["foo"]} # excludes numbers
+p build_lookup(["foo","bar","baz", "bar", "foo", "bar", "bip"]) == {"\n, \n"=>["foo"], "\n, foo"=>["bar"], "foo, bar"=>["baz", "bip"], "bar, baz"=>["bar"], "baz, bar"=>["foo"], "bar, foo"=>["bar"]}
 
 puts
