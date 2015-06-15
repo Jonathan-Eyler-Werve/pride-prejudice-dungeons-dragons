@@ -53,12 +53,32 @@ def mostly_letters?(words)
 end 
 
 pride_lookup = build_lookup(parse_table(PRIDE))
-dragons_lookup = build_lookup(parse_table(DRAGONS))
+# dragons_lookup = build_lookup(parse_table(DRAGONS))
 
 ## pick a new words 
 
+def make_sentence(lookup)
+  sentence = ""
+  word_1 = "\n"
+  word_2 = "\n"
+  end_words = [".","!","?",":"]
+  next_word = ["It", "The", "If", "They", "We", "What", "Do", "Is", "This"].sample
+
+  until end_words.include?(next_word[-1])
+    key = keymaker(word_1, word_2)
+    next_word = lookup[key].sample    
+    sentence = sentence + " " + next_word
+    word_1 = word_2
+    word_2 = next_word 
+  end 
+  sentence
+end  
+
 ## make em into sentences 
 
+10.times do
+  p make_sentence(pride_lookup)
+end
 ## publish that shit 
 
 puts
