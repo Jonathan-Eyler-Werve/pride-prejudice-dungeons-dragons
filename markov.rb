@@ -1,14 +1,15 @@
-## Make the table
-
-# Open the file
+## Make the lookup table
 
 DRAGONS = "dragons.txt"
+PRIDE = "pride.txt"
 
 def build_lookup(words)
   lookup = {}
   word_1 = "/n"
   word_2 = "/n"
   words.each do |nextword| 
+    nextword.delete!("\"")
+    nextword.delete!("\'")
     key = keymaker(word_1, word_2)
     if mostly_letters?([word_1, word_2, nextword])
       if lookup[key] == nil
@@ -51,13 +52,14 @@ def mostly_letters?(words)
   true    
 end 
 
+pride_lookup = build_lookup(parse_table(PRIDE))
+dragons_lookup = build_lookup(parse_table(DRAGONS))
+
 ## pick a new words 
 
 ## make em into sentences 
 
 ## publish that shit 
-
-p build_lookup(parse_table(DRAGONS))
 
 puts
 puts "TESTS" 
@@ -74,13 +76,14 @@ tester = {"foo, bar" => "baz"}
 p tester[keymaker("foo","bar")] == "baz" 
 
 p mostly_letters?([]) == true
-p mostly_letters?(["foo","bar","baz"]) == true
+p mostly_letters?(["foo","bar.","baz"]) == true
 p mostly_letters?(["foo","99","baz"]) == false
 p mostly_letters?(["foo","bar","baz9"]) == false
 p mostly_letters?(["foo","bar","---"]) == false
 p mostly_letters?(["foo","bar","___"]) == false
 
 p build_lookup(["foo"]) == {"/n, /n"=>["foo"]}
-p build_lookup(["foo9"]) == {}
+p build_lookup(["foo", "foo9"]) == {"/n, /n"=>["foo"]} # excludes numbers
+p build_lookup(["foo","bar","baz", "bar", "foo", "bar", "bip"]) == {"/n, /n"=>["foo"], "/n, foo"=>["bar"], "foo, bar"=>["baz", "bip"], "bar, baz"=>["bar"], "baz, bar"=>["foo"], "bar, foo"=>["bar"]}
 
 puts
