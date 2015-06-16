@@ -70,19 +70,43 @@ def make_sentence(lookups)
   word_1 = "\n"
   word_2 = "\n"  
   next_word = "\n" #["It", "The", "If", "They", "We", "What", "Do", "Is", "This", "A", "Giants"].sample
-  current_lookup = lookups.sample
+  source_preference = rand(lookups.length-1)
+  
+  source_counter = []
+  lookups.length.times do 
+    source_counter << 0
+  end  
+  
+  current_lookup = lookups[source_preference]
 
   until end_of_sentence?(next_word)
     key = keymaker(word_1, word_2)
+
+    #check if we need to change the source
+    if source_counter[source_preference] >= source_counter.min + 5
+      #change to least used source if possible
+      puts "attempting to change source"
+      new_lookup_index = source_counter.index(source_counter.min)
+      puts new_lookup_index
+      p key
+      p lookups[new_lookup_index][key]
+      new_lookup_index = source_preference if lookups[new_lookup_index][key] != nil
+    end  
+
+    
+    
     if current_lookup[key] != nil
+      source_counter[source_preference] += 1 
+      p source_counter
       next_word = current_lookup[key].sample
       sentence = sentence + " " + next_word if next_word != "\n"
     end  
     word_1 = word_2
     word_2 = next_word 
-    break "everyone is newline" if word_1 + word_2 + next_word == "\n\n\n"
+    break if word_1 + word_2 + next_word == "\n\n\n"
   end 
   return sentence[1..-1] if sentence.length > 15 # chuck out the sentence if it's too short
+  puts "sentence was too short"
   make_sentence(lookups) 
 end  
 
