@@ -18,7 +18,7 @@ OAUTH_TOKEN = config.get("twitter", "oauth_token")
 OAUTH_TOKEN_SECRET = config.get("twitter", "oauth_token_secret")
 
 stopword = "\n" # Since we split on whitespace, this can never be a word
-stopsentence = (".", "!", "?",) # Cause a "new sentence" if found at the end of a word
+stopsentence = (".", "!", "?") # Cause a "new sentence" if found at the end of a word
 sentencesep  = "\n" #String used to separate sentences
 
 # GENERATE TABLE
