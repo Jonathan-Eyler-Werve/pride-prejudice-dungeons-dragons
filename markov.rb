@@ -78,32 +78,32 @@ def make_sentence(lookups)
   end  
   
   current_lookup = lookups[source_preference]
-
+  loop_counter = 0
   until end_of_sentence?(next_word)
+    loop_counter += 1
     key = keymaker(word_1, word_2)
 
     #check if we need to change the source
     if source_counter[source_preference] >= source_counter.min + 5
       #change to least used source if possible
-      puts "attempting to change source"
-      new_lookup_index = source_counter.index(source_counter.min)
-      puts new_lookup_index
-      p key
-      p lookups[new_lookup_index][key]
-      new_lookup_index = source_preference if lookups[new_lookup_index][key] != nil
-    end  
 
-    
+      potential_lookup_index = source_counter.index(source_counter.min)
+      if lookups[potential_lookup_index][key] != nil
+        source_preference = potential_lookup_index 
+        current_lookup = lookups[source_preference]
+        # puts "changed source to " + source_preference.to_s
+      end  
+    end  
     
     if current_lookup[key] != nil
       source_counter[source_preference] += 1 
-      p source_counter
       next_word = current_lookup[key].sample
       sentence = sentence + " " + next_word if next_word != "\n"
     end  
     word_1 = word_2
     word_2 = next_word 
     break if word_1 + word_2 + next_word == "\n\n\n"
+    break if loop_counter >= 200 
   end 
   return sentence[1..-1] if sentence.length > 15 # chuck out the sentence if it's too short
   puts "sentence was too short"
