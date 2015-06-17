@@ -1,7 +1,11 @@
 ## Make the lookup table
 
-DRAGONS = "dragons.txt"
-PRIDE = "pride.txt"
+DRAGONS = "the-DND-monsters-manual.txt"
+PRIDE = "austin--pride-and-prejudice.txt"
+PLATO = "plato--the-replublic.txt"
+JOB = "bible--book-of-job.txt"
+LONDON = "jack-london.txt"
+JEEVES = "wodehouse.txt"
 
 SENTENCE_END_CHARS = [".","!","?",":"]
 
@@ -60,8 +64,6 @@ def mostly_letters?(words)
   true    
 end 
 
-pride_lookup = build_lookup(parse_table(PRIDE))
-dragons_lookup = build_lookup(parse_table(DRAGONS))
 
 ## pick a new words 
 
@@ -84,14 +86,22 @@ def make_sentence(lookups)
     key = keymaker(word_1, word_2)
 
     #check if we need to change the source
-    if source_counter[source_preference] >= source_counter.min + 5
+    if source_counter[source_preference] >= source_counter.min + 3
       #change to least used source if possible
 
-      potential_lookup_index = source_counter.index(source_counter.min)
-      if lookups[potential_lookup_index][key] != nil
-        source_preference = potential_lookup_index 
+      bestfit_lookup_index = source_counter.index(source_counter.min)
+      wildcard_lookup_index = rand(lookups.length - 1)
+
+      if lookups[bestfit_lookup_index][key] != nil
+        source_preference = bestfit_lookup_index 
         current_lookup = lookups[source_preference]
-        # puts "changed source to " + source_preference.to_s
+        # puts "changed source to bestfit " + source_preference.to_s
+        # puts sentence        
+      elsif lookups[wildcard_lookup_index][key] != nil   
+        source_preference = wildcard_lookup_index        
+        current_lookup = lookups[wildcard_lookup_index]
+        # puts "changed source to wildcard " + source_preference.to_s
+        # puts sentence
       end  
     end  
     
@@ -103,10 +113,15 @@ def make_sentence(lookups)
     word_1 = word_2
     word_2 = next_word 
     break if word_1 + word_2 + next_word == "\n\n\n"
-    break if loop_counter >= 200 
+    
+    if loop_counter >= 100 
+      # puts "we are over loop counter: " + word_1 + " " + word_2 + " " + next_word
+      break
+    end   
   end 
+
   return sentence[1..-1] if sentence.length > 15 # chuck out the sentence if it's too short
-  puts "sentence was too short"
+  # puts "sentence was too short"
   make_sentence(lookups) 
 end  
 
@@ -115,13 +130,80 @@ def end_of_sentence?(word)
   return true if SENTENCE_END_CHARS.include?(word[-1]) 
   false
 end
-## make em into sentences 
 
-p make_sentence([dragons_lookup, dragons_lookup])
-p make_sentence([pride_lookup, dragons_lookup])
-p make_sentence([pride_lookup, dragons_lookup])
-p make_sentence([pride_lookup, dragons_lookup])
-p make_sentence([pride_lookup, dragons_lookup])
+puts "building pride lookup"
+pride_lookup = build_lookup(parse_table(PRIDE))
+puts "building monsters lookup"
+dragons_lookup = build_lookup(parse_table(DRAGONS))
+puts "building republic lookup"
+plato_lookup = build_lookup(parse_table(PLATO))
+puts "building job lookup"
+job_lookup = build_lookup(parse_table(JOB))
+puts "building jack london lookup"
+london_lookup = build_lookup(parse_table(LONDON))
+puts "building Jeeves lookup"
+jeeves_lookup = build_lookup(parse_table(JEEVES))
+
+
+# puts
+# puts "Dragons and Job"
+# p make_sentence([dragons_lookup, job_lookup])
+# p make_sentence([dragons_lookup, job_lookup])
+# p make_sentence([dragons_lookup, job_lookup])
+# p make_sentence([dragons_lookup, job_lookup])
+# p make_sentence([dragons_lookup, job_lookup])
+# p make_sentence([dragons_lookup, job_lookup])
+# p make_sentence([dragons_lookup, job_lookup])
+# p make_sentence([dragons_lookup, job_lookup])
+# puts
+# puts "plato and job"
+# p make_sentence([plato_lookup, job_lookup])
+# p make_sentence([plato_lookup, job_lookup])
+# p make_sentence([plato_lookup, job_lookup])
+# p make_sentence([plato_lookup, job_lookup])
+# p make_sentence([plato_lookup, job_lookup])
+# p make_sentence([plato_lookup, job_lookup])
+# puts
+# puts "Pride and Job"
+# p make_sentence([pride_lookup, job_lookup])
+# p make_sentence([pride_lookup, job_lookup])
+# p make_sentence([pride_lookup, job_lookup])
+# p make_sentence([pride_lookup, job_lookup])
+# p make_sentence([pride_lookup, job_lookup])
+# p make_sentence([pride_lookup, job_lookup])
+# p make_sentence([pride_lookup, job_lookup])
+# p make_sentence([pride_lookup, job_lookup])
+# puts
+puts
+# puts "London and all of them"
+# 10.times do 
+#   puts make_sentence([dragons_lookup, london_lookup, pride_lookup, job_lookup, plato_lookup]) 
+#   puts
+# end  
+# puts make_sentence([pride_lookup, london_lookup])
+# p make_sentence([pride_lookup, london_lookup])
+# p make_sentence([london_lookup, job_lookup])
+# p make_sentence([london_lookup, job_lookup])
+# p make_sentence([london_lookup, job_lookup])
+# p make_sentence([dragons_lookup, london_lookup])
+
+p make_sentence([london_lookup, pride_lookup])
+p make_sentence([london_lookup, pride_lookup])
+p make_sentence([london_lookup, pride_lookup])
+p make_sentence([london_lookup, pride_lookup])
+p make_sentence([london_lookup, pride_lookup])
+p make_sentence([london_lookup, pride_lookup])
+p make_sentence([london_lookup, pride_lookup])
+p make_sentence([jeeves_lookup, pride_lookup])
+p make_sentence([jeeves_lookup, pride_lookup])
+p make_sentence([jeeves_lookup, pride_lookup])
+p make_sentence([jeeves_lookup, pride_lookup])
+p make_sentence([jeeves_lookup, pride_lookup])
+p make_sentence([jeeves_lookup, pride_lookup])
+p make_sentence([jeeves_lookup, pride_lookup])
+
+# puts
+
 
 
 ## publish that shit 
